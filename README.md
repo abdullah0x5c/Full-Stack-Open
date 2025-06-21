@@ -17,14 +17,14 @@ The course is divided into 13 parts (0-12), with each part containing multiple e
 | Part | Topic | Exercises | Completed | Date Completed | Status |
 |------|-------|-----------|-----------|----------------|---------|
 | 0 | Fundamentals of Web apps | 6/6 | ✅ | June 4th | Complete |
-| 1 | Introduction to React | 5/14 | ⏳ | - | In Progress |
-| 2 | Communicating with server | 0/20 | ⏳ | - | Pending |
+| 1 | Introduction to React | 14/14 | ✅ | - | Complete |
+| 2 | Communicating with server | 0/20 | ⏳ | - | Inprogress |
 | 3 | Programming a server with NodeJS and Express | 0/22 | ⏳ | - | Pending |
 | 4 | Testing Express servers, user administration | 0/23 | ⏳ | - | Pending |
 | 5 | Testing React apps | 0/23 | ⏳ | - | Pending |
 | 6 | Advanced state management | 0/21 | ⏳ | - | Pending |
 | 7 | React router, custom hooks, styling app with CSS and webpack | 0/21 | ⏳ | - | Pending |
 
-**Total Progress:** 11/150 exercises completed (7.3%)
+**Total Progress:** 20/150 exercises completed (13.3%)
 
-**Last Updated:** June 4th, 2024
+**Last Updated:** June 21st, 2025
