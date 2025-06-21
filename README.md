@@ -4,7 +4,7 @@ Welcome to my Full Stack Open course journey! This repository contains all my su
 
 ## About Full Stack Open
 
-Full Stack Open is a comprehensive course that teaches modern web development with JavaScript. The course covers React, Redux, Node.js, MongoDB, GraphQL, and TypeScript. It's worth 3-9 credits and is completely free!
+Full Stack Open is a comprehensive course that teaches modern web development with JavaScript. The course covers React, Redux, Node.js, MongoDB, GraphQL, and TypeScript.
 
 **Course Website:** [https://fullstackopen.com/](https://fullstackopen.com/)
 
