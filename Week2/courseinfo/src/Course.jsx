@@ -13,4 +13,4 @@ const Course = ({course}) => {
   )
 }
 
-export default App
+export default Course
