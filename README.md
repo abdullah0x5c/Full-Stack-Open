@@ -10,7 +10,7 @@ Full Stack Open is a comprehensive course that teaches modern web development wi
 
 ## Course Structure & Progress
 
-The course is divided into 13 parts (0-12), with each part containing multiple exercises. Below is my progress tracker:
+The course is divided into 13 parts (0-12), with each part containing multiple exercises. but only 8 parts till Full Stack (0-7). Below is my progress tracker:
 
 ###  Progress Table
 
