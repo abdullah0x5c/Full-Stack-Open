@@ -48,6 +48,7 @@ const App = () => {
 
   const display = course.map((c)=><Course key={c.id} course={c} />)
 
+
   return display
 }
 
