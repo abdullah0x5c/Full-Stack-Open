@@ -1,4 +1,7 @@
 import { useState } from 'react'
+import Person from './Person.jsx'
+import Filter from './Filter.jsx'
+import PersonForm from './PersonForm.jsx'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -18,66 +21,27 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
 
-  const changeName = (event) => {
-    event.preventDefault()
-    setNewName(event.target.value)
-  }
-
-  const changeNumber = (event) => {
-    event.preventDefault()
-    setNewNumber(event.target.value)
-  }
-
-  const notExists = () => {
-    const finds = persons.find((person) => person.name == newName || person.number == newNumber)
-    return !finds
-  }
-
-  const submit = (event) => {
-    event.preventDefault()
-    if(notExists()){
-      setPersons([...persons,{name: newName, number: newNumber, id:persons.length+1}])
-    }
-    else{
-      alert(`Name or Number is already added to phonebook`)
-    }
-  }
-
-  const filter = (event) => {
-    const search = event.target.value.toLowerCase()
-    if(search.length > 0) {
-      const filtered = persons.filter((person) => person.name.toLowerCase().includes(search))
-      setPersonsShown(filtered)
-    }
-    else
-      setPersonsShown(persons)
-  }
-
-  const names = personsShown.map((person, index) => <li key = {index} > {person.name} {person.number}</li>)
-
   
   return (
     <div>
       <h2>Phonebook</h2>
-        <div>
-          show with filter <input onChange={filter}/>
-        </div>
+      <Filter 
+        persons={persons}
+        setPersonsShown={setPersonsShown}
+      />
       <h2>Add a new</h2>
-      <form onSubmit ={submit}>
-        <div>
-          name: <input onChange={changeName} value={newName}/>
-        </div>
-        <div>
-          number: <input onChange={changeNumber} value={newNumber}/>
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <PersonForm 
+        newName = {newName} 
+        setNewName = {setNewName}
+        newNumber = {newNumber}
+        setNewNumber = {setNewNumber}
+        persons = {persons}
+        setPersons = {setPersons}
+        personsShown = {personsShown}
+        setPersonsShown = {setPersonsShown}
+      />  
       <h2>Numbers</h2>
-      <ul>
-        {names}
-      </ul>
+      <Person persons={personsShown}/>
     </div>
   )
 }
