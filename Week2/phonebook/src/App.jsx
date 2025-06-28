@@ -7,22 +7,17 @@ import PersonForm from './PersonForm.jsx'
 const App = () => {
   const [persons, setPersons] = useState([]) 
 
-  const [personsShown, setPersonsShown] = useState([
-    { name: 'Arto Hellas', number: '040-123456', id: 1 },
-    { name: 'Ada Lovelace', nanythingumber: '39-44-5323523', id: 2 },
-    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
-    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
-  ]) 
+  const [personsShown, setPersonsShown] = useState([]) 
 
-  const data = () =>   axios
+  const data = async () =>   axios
     .get("http://127.0.0.1:3001/persons")
     .then(response =>{
       setPersons(response.data)
+      setPersonsShown(response.data)
     })
 
   useEffect(() => {
     data()
-    
   },[])
 
   const [newName, setNewName] = useState('')

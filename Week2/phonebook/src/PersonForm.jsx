@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 const PersonForm = ({newName, setNewName, newNumber, setNewNumber, persons, setPersons, personsShown, setPersonsShown}) => {
   
   const changeName = (event) => {
@@ -20,11 +22,17 @@ const PersonForm = ({newName, setNewName, newNumber, setNewNumber, persons, setP
     let person = {
       name: newName,
       number: newNumber,
-      id:persons.length+1
     }
     if(notExists()){
-      setPersons([...persons,person])
-      setPersonsShown([...personsShown, person])
+      axios.post("http://127.0.0.1:3001/persons", person)
+        .then(response => {
+          console.log(response)
+          setPersons([...persons,response.data])
+          setPersonsShown([...personsShown, response.data])
+        })
+        .catch(error => {
+          console.log("error", error)
+        })
     }
     else{
       alert(`Name or Number is already added to phonebook`)
