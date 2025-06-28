@@ -1,4 +1,4 @@
-import axios from 'axios'
+import data from './data.jsx'
 
 const PersonForm = ({newName, setNewName, newNumber, setNewNumber, persons, setPersons, personsShown, setPersonsShown}) => {
   
@@ -24,11 +24,11 @@ const PersonForm = ({newName, setNewName, newNumber, setNewNumber, persons, setP
       number: newNumber,
     }
     if(notExists()){
-      axios.post("http://127.0.0.1:3001/persons", person)
-        .then(response => {
-          console.log(response)
-          setPersons([...persons,response.data])
-          setPersonsShown([...personsShown, response.data])
+      data.postObj(person)
+        .then(data => {
+          console.log(data)
+          setPersons([...persons, data])
+          setPersonsShown([...personsShown, data])
         })
         .catch(error => {
           console.log("error", error)

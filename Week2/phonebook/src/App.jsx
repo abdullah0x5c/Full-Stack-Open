@@ -1,23 +1,21 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import Person from './Person.jsx'
 import Filter from './Filter.jsx'
 import PersonForm from './PersonForm.jsx'
+import data from './data.jsx'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
 
   const [personsShown, setPersonsShown] = useState([]) 
 
-  const data = async () =>   axios
-    .get("http://127.0.0.1:3001/persons")
-    .then(response =>{
-      setPersons(response.data)
-      setPersonsShown(response.data)
-    })
-
   useEffect(() => {
-    data()
+    data
+      .showAll()
+      .then(data =>{
+        setPersons(data)
+        setPersonsShown(data)
+      })
   },[])
 
   const [newName, setNewName] = useState('')
