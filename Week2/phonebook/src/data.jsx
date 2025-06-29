@@ -19,4 +19,11 @@ const postObj = (obj) => {
         })
 }
 
-export default {showAll, postObj}
+const delObj = (id) => {
+  const deletionURL = url + "/" + id
+  return axios
+    .delete(deletionURL)
+    .then(response => response.data)
+}
+
+export default {showAll, postObj, delObj}

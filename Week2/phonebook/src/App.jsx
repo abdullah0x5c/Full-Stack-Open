@@ -21,6 +21,16 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
 
+  const deleteEntree = (id, name) => {
+    console.log(name)
+    if(window.confirm(`Delete ${name}?`)){
+      data.delObj(id)
+        .then(data => {
+          setPersons(persons.filter((person) => person.id != data.id))
+          setPersonsShown(persons.filter((person) => person.id != data.id))
+        })
+    }
+  }
   
   return (
     <div>
@@ -41,7 +51,7 @@ const App = () => {
         setPersonsShown = {setPersonsShown}
       />  
       <h2>Numbers</h2>
-      <Person persons={personsShown}/>
+      <Person persons={personsShown} deleteEntree={deleteEntree}/>
     </div>
   )
 }
