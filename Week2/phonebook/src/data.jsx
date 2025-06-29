@@ -19,6 +19,13 @@ const postObj = (obj) => {
         })
 }
 
+const updateObj = (id, obj) => {
+  const updationURL = url + "/" + id
+  return axios
+    .put(updationURL, obj)
+    .then(response => response.data)
+}
+
 const delObj = (id) => {
   const deletionURL = url + "/" + id
   return axios
@@ -26,4 +33,4 @@ const delObj = (id) => {
     .then(response => response.data)
 }
 
-export default {showAll, postObj, delObj}
+export default {showAll, postObj, delObj, updateObj}

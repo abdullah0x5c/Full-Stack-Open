@@ -22,7 +22,6 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
 
   const deleteEntree = (id, name) => {
-    console.log(name)
     if(window.confirm(`Delete ${name}?`)){
       data.delObj(id)
         .then(data => {

@@ -13,7 +13,7 @@ const PersonForm = ({newName, setNewName, newNumber, setNewNumber, persons, setP
   }
 
   const notExists = () => {
-    const finds = persons.find((person) => person.name == newName || person.number == newNumber)
+    const finds = persons.find((person) => person.name == newName)
     return !finds
   }
 
@@ -23,6 +23,7 @@ const PersonForm = ({newName, setNewName, newNumber, setNewNumber, persons, setP
       name: newName,
       number: newNumber,
     }
+
     if(notExists()){
       data.postObj(person)
         .then(data => {
@@ -35,7 +36,20 @@ const PersonForm = ({newName, setNewName, newNumber, setNewNumber, persons, setP
         })
     }
     else{
-      alert(`Name or Number is already added to phonebook`)
+      if(window.confirm(`${person.name} is already added in the phonebook, replace the old number with the new one?`)){
+        let id = persons.find(entry => entry.name == person.name).id
+        console.log(id)
+        data.updateObj(id, person)
+          .then(data => {
+            console.log(data)
+            let intermediateArray = persons.filter(entry => entry.name != person.name)
+            setPersons([...intermediateArray, data])
+            setPersonsShown([...intermediateArray, data])
+          })
+          .catch(error => {
+            console.log("error", error)
+          })
+      }
     }
   }
   
