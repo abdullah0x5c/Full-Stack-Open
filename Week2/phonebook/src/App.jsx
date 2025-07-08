@@ -7,7 +7,7 @@ import data from './data.jsx'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
-  const [notification, setNotification] = useState('')
+  const [notification, setNotification] = useState(null)
   const [personsShown, setPersonsShown] = useState([]) 
 
   useEffect(() => {

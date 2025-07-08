@@ -1,7 +1,17 @@
 import data from './data.jsx'
 
+
+
 const PersonForm = ({newName, setNewName, newNumber, setNewNumber, persons, setPersons, personsShown, setPersonsShown, setNotification}) => {
   
+
+  const notificationSend = (message) =>
+  {
+    setNotification(message)
+    setTimeout( () =>
+      {setNotification(null)}
+      ,5000)
+  }
   const changeName = (event) => {
     event.preventDefault()
     setNewName(event.target.value)
@@ -29,7 +39,7 @@ const PersonForm = ({newName, setNewName, newNumber, setNewNumber, persons, setP
         .then(data => {
           setPersons([...persons, data])
           setPersonsShown([...personsShown, data])
-          setNotification(`${data.name} succesfully added!`)
+          notificationSend(`${data.name} succesfully added!`)
         })
         .catch(error => {
           console.log("error", error)
@@ -43,7 +53,7 @@ const PersonForm = ({newName, setNewName, newNumber, setNewNumber, persons, setP
             let intermediateArray = persons.filter(entry => entry.name != person.name)
             setPersons([...intermediateArray, data])
             setPersonsShown([...intermediateArray, data])
-            setNotification(`Number of ${data.name} succesfully changed to ${data.number}!`)
+            notificationSend(`Number of ${data.name} succesfully changed to ${data.number}!`)
           })
           .catch(error => {
             console.log("error", error)
