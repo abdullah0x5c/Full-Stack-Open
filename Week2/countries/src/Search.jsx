@@ -1,9 +1,10 @@
 import Country from './Country.jsx'
+import Entree from './Entree.jsx'
 
 const Search = ({search, countries}) => {
 
+
   const items = countries.filter(country => country.toLowerCase().includes(search.toLowerCase()))
-  console.log(items)
 
   if(items.length == 1){
     return(
@@ -12,13 +13,24 @@ const Search = ({search, countries}) => {
       </>
     )
   }
+  if(items.length > 10){
+    return(
+      <>
+        <br />
+        Too many matches, try to be more specific
+      </>
+    )
+  }
   else{
-    const itemsShown = items.map(item => <li key={item}>{item}</li>)
+
+    const itemsShown = items.map(item => {
+        return(
+        <Entree country={item}/>
+      )
+  })
     return (
     <>
-      <ul>
         {itemsShown}
-      </ul>
     </>
   )}
 }
