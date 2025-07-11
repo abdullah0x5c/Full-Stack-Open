@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+app.use(express.json())
 
 let phonebook = [
     { 
@@ -64,6 +65,35 @@ app.delete('/api/persons/:id', (req, res) => {
     else{
         res.status(404).end()
     }
+})
+
+app.post('/api/persons', (req, res) => {
+    const reqContact = req.body
+    const identifier = Math.max(...phonebook.map(item => Number(item.id))) + 1
+
+    const nameExists = reqContact.name?1:0
+    const numberExists = reqContact.number?1:0
+    const nameRepeat = phonebook.find(item => item.name == reqContact.name)?1:0
+
+    if(!nameExists){
+        res.status(400).json({ error: 'name must not be empty' })
+    }
+    else if(!numberExists){
+        res.status(400).json({ error: 'number must not be empty' })
+    }
+    else if(nameRepeat){
+        res.status(400).json({ error: 'name must be unique' })
+    }
+    else{
+    const Contact = {
+        "id": String(identifier),
+        "name": reqContact.name, 
+        "number": reqContact.number
+    }
+
+    phonebook = phonebook.concat(Contact)
+
+    res.json(Contact)}
 })
 
 const PORT = 3001
