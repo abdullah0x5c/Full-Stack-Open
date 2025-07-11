@@ -3,15 +3,12 @@ import { useState } from 'react'
 
 const Entree = ({country}) => {
 
-    console.log("2 ", country)
-
 
     const [toggle, setState] = useState(0)
 
     const changeState = () => setState(!toggle)
 
     if(toggle == 0){
-        console.log(country)
 
         return (
             <>
