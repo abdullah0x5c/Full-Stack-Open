@@ -1,5 +1,6 @@
 const Person = ({persons, deleteEntree}) => {
 
+    console.log(persons)
     const names = persons.map((person, index) => 
     <li key = {index} >
         {person.name} {person.number} 

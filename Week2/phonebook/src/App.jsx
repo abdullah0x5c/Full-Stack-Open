@@ -64,7 +64,7 @@ const App = () => {
         setNotification = {setNotification}
       />  
       <h2>Numbers</h2>
-      <Person persons={personsShown} deleteEntree={deleteEntree} setError={setError}/>
+      <Person persons={personsShown || []} deleteEntree={deleteEntree} setError={setError}/>
     </div>
   )
 }
