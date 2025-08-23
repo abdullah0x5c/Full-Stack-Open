@@ -20,4 +20,13 @@ blogsRouter.post('/', (request, response) => {
   })
 })
 
+blogsRouter.delete('/', (request, response) => {
+  Blog.deleteMany({})
+    .then(result => {
+      response.status(200).json({
+        message: 'Successfully deleted.'
+      })
+    })
+})
+
 module.exports = blogsRouter
