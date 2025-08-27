@@ -20,6 +20,13 @@ blogsRouter.post('/', (request, response) => {
   })
 })
 
+blogsRouter.delete('/:id', async (req, res) => {
+  const deleteBlog = await Blog.findByIdAndDelete(req.params.id)
+  if(deleteBlog){
+      res.status(204).end()
+  }
+})
+
 blogsRouter.delete('/', (request, response) => {
   Blog.deleteMany({})
     .then(result => {
