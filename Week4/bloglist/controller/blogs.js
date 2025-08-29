@@ -1,5 +1,6 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 blogsRouter.get('/', (request, response) => {
   Blog.find({}).then((blogs) => {
@@ -7,17 +8,31 @@ blogsRouter.get('/', (request, response) => {
   })
 })
 
-blogsRouter.post('/', (request, response) => {
+blogsRouter.post('/', async (request, response) => {
+
+  const body = request.body
+
+  const user = await User.findById(body.user)
+  if (!user){
+    return response.status(400).json({error: 'user ID not found'})
+  }
+
+
   const blog = new Blog({
     title: request.body.title,
     author: request.body.author,
     url: request.body.url,
     likes: request.body.likes,
+    user: user.id
   })
 
-  blog.save().then((result) => {
-    response.status(201).json(result)
-  })
+  const savedNote = await blog.save()
+
+  user.blog = user.blog.concat(savedNote.id)
+  await user.save()
+
+  response.status(201).json(savedNote)
+
 })
 
 blogsRouter.delete('/:id', async (req, res) => {
