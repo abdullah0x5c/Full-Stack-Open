@@ -6,8 +6,13 @@ const blogsRouter = require('./controller/blogs')
 const usersRouter = require('./controller/users')
 const loginRouter = require('./controller/login')
 const middleware = require('./utils/mioddleware')
+const cors = require('cors')
+
 
 const app = express()
+app.use(cors({
+  origin: 'http://localhost:5173'
+}))
 
 logger.info('connecting to', config.MONGODB_URI)
 
