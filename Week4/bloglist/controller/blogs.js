@@ -5,9 +5,11 @@ const jwt = require('jsonwebtoken')
 const config = require('../utils/configs')
 
 blogsRouter.get('/', (request, response) => {
-  Blog.find({}).then((blogs) => {
-    response.json(blogs)
-  })
+  // Populate the user field so frontend receives { name, username, id }
+  Blog.find({}).populate('user', { name: 1, username: 1 })
+    .then((blogs) => {
+      response.json(blogs)
+    })
 })
 
 blogsRouter.post('/', async (request, response) => {
@@ -36,15 +38,20 @@ blogsRouter.post('/', async (request, response) => {
     author: request.body.author,
     url: request.body.url,
     likes: request.body.likes,
-    user: user.id
+    // store only the user id reference
+    user: user._id
   })
 
   const savedNote = await blog.save()
-
-  user.blog = user.blog.concat(savedNote.id)
-  await user.save()
-
-  response.status(201).json(savedNote)
+  
+    // Ensure the returned blog contains populated user info so the frontend
+    // can immediately display the creator's name/username.
+    const populatedSaved = await savedNote.populate('user', { name: 1, username: 1 })
+  
+    user.blog = user.blog.concat(savedNote.id)
+    await user.save()
+  
+    response.status(201).json(populatedSaved)
 
 })
 

@@ -3,7 +3,9 @@ import Blog from './components/Blog'
 import Notification from './components/Notification'
 import Error from './components/Error'
 import loginService from './services/login'
+import registerService from './services/register'
 import blogService from './services/blogs'
+import AddBlog from './components/AddBlog'
 import './styles.css'
 
 const App = () => {
@@ -11,36 +13,38 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+  const [regiName, setRegiName] = useState('')
+  const [regiUsername, setRegiUsername] = useState('')
+  const [regiPassword, setRegiPassword] = useState('')
 
   const [user, setUser] = useState(null)
 
   const [notification, setNotification] = useState(null)
   const [error, setError] = useState(null)
 
-  const handleBlog = async event => {
+  const [registerDiv, setRegisterDiv] = useState(false)
+
+
+  const handleRegister = async event => {
     event.preventDefault()
     try {
-      
-      const upload = await blogService.uploadBlog(
+      await registerService.register(
       {
-        title: title,
-        author: author,
-        url: url
+        name: regiName,
+        username: regiUsername,
+        password: regiPassword
       }
       )
-      setBlogs([...blogs, upload])
-      setNotification(`Blog Uploaded - ${upload.title} by ${upload.author}`)
+      setNotification(`User Registered - ${regiName}`)
       setTimeout(() => setNotification(null), 5000)
+      setRegiName('')
+      setRegiUsername('')
+      setRegiPassword('')
+      setRegisterDiv(!registerDiv)
     } catch (error) {
       setError(error)
       setTimeout(() => setError(null), 5000)
       }
-
-
-
   }
 
   const login = () => {
@@ -69,36 +73,71 @@ const App = () => {
           </label>
         </div>
         <button type="submit">login</button>
+        <br></br>
+        <button type="button" onClick={() => setRegisterDiv(!registerDiv)}>Do'nt have an account | Register</button>
       </form>
     </>
     )
   }
 
+  const register = () => {
+    return (
+    <>
+      <h2>Register</h2>
+      <form onSubmit={handleRegister}>
+        <div>
+          <label>
+            Name
+            <input
+              type="text"
+              value={regiName}
+              onChange={({ target }) => setRegiName(target.value)}
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            username
+            <input
+              type="text"
+              value={regiUsername}
+              onChange={({ target }) => setRegiUsername(target.value)}
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            password
+            <input
+              type="password"
+              value={regiPassword}
+              onChange={({ target }) => setRegiPassword(target.value)}
+            />
+          </label>
+        </div>
+        <button type="submit">Register</button>
+        <br></br>
+        <button type="button" onClick={() => setRegisterDiv(!registerDiv)}>Already have an account | Login</button>
+      </form>
+    </>
+    )
+  }
+
+  
+
   const Blogs = () => {
     return (
       <>
-
-        <div>
-          <h3>Add a new Blog</h3>
-          <form onSubmit={handleBlog}>
-            <div>
-              <label>title:</label>
-              <input type="text" onChange={({ target }) => setTitle(target.value)}/>
-            </div>
-            <div>
-              <label>author:</label>
-              <input type="text" onChange={({ target }) => setAuthor(target.value)}/>
-            </div>
-            <div>
-              <label>url:</label>
-              <input type="text" onChange={({ target }) => setUrl(target.value)}/>
-            </div>
-            <button type="submit" >login</button>
-          </form>
-        </div>
-
-        {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} />
+        <p>{user.name} logged in <button onClick={() => {setUser(null); blogService.setToken(null)}}>logout</button></p>
+        <AddBlog blogs={blogs} setBlogs={setBlogs} setNotification={setNotification} setError={setError}/>
+        <br></br>
+        <br></br>
+        {blogs
+        .slice()
+        .sort((a,b) => b.likes - a.likes)
+        .map(blog =><>
+          <Blog key={blog.id} blog={blog} user={user}/>
+          </>
         )}
       </>
     )
@@ -133,7 +172,8 @@ const App = () => {
       <h1>blogs</h1>
       <Notification message={notification}/>
       <Error message={error}/>
-      {!user && login()}
+      {!user && !registerDiv && login()}
+      {!user && registerDiv && register()}
       {user && Blogs()}
     </div>
   )
