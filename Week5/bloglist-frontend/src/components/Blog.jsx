@@ -34,10 +34,10 @@ const Blog = ({ blog, user }) => {
     <div style={blogStyle} className="blog">
       {blog.title} {blog.author}
       <button onClick={() => setView(!view)}>hide</button>
-      <br></br>
-      {blog.url}
-      <br></br>
-      <Like blog={blog} user={user}/>
+  <br></br>
+  <div className="blogUrl">{blog.url}</div>
+  <br></br>
+  <div className="blogLikes"><Like blog={blog} user={user}/></div>
       <br></br>
       <div>
         Added by: {

@@ -24,7 +24,7 @@ const AddBlog = (props) => {
           )
           props.setBlogs([...props.blogs, upload])
           props.setNotification(`Blog Uploaded - ${upload.title} by ${upload.author}`)
-          setTimeout(() => setNotification(null), 5000)
+          setTimeout(() => props.setNotification(null), 5000)
         } catch (error) {
           props.setError(error)
           setTimeout(() => props.setError(null), 5000)
@@ -37,19 +37,19 @@ const AddBlog = (props) => {
           <h3>Add a new Blog</h3>
           <form onSubmit={handleBlog}>
             <div>
-              <label>title:</label>
-              <input type="text" onChange={({ target }) => setTitle(target.value)}/>
+              <label htmlFor="title">title:</label>
+              <input id="title" type="text" onChange={({ target }) => setTitle(target.value)}/>
             </div>
             <div>
-              <label>author:</label>
-              <input type="text" onChange={({ target }) => setAuthor(target.value)}/>
+              <label htmlFor="author">author:</label>
+              <input id="author" type="text" onChange={({ target }) => setAuthor(target.value)}/>
             </div>
             <div>
-              <label>url:</label>
-              <input type="text" onChange={({ target }) => setUrl(target.value)}/>
+              <label htmlFor="url">url:</label>
+              <input id="url" type="text" onChange={({ target }) => setUrl(target.value)}/>
             </div>
             <button type="submit" >Submit</button>
-            <button onClick={() => setNewBlog(!newBlog)}>cancel</button>
+            <button type="button" onClick={() => setNewBlog(!newBlog)}>cancel</button>
           </form>
     </div>
         )

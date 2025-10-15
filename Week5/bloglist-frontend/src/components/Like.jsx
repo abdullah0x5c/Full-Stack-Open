@@ -1,35 +1,39 @@
 import blogService from '../services/blogs'
 import { useState } from 'react'
 
-const Like = ({ blog, user }) => {
+// onLike (optional) is a callback the parent can pass to be notified
+// when a like has been successfully processed.
+const Like = ({ blog, user, onLike }) => {
 
-    let [likes, setLikes] = useState(blog.likes)
+    const [likes, setLikes] = useState(blog.likes)
 
-    console.log(blog)
-    const handleClick = async (id) => {
-        let Obj ={
+    const handleClick = async () => {
+        const Obj = {
             id: blog.id,
             user: blog.user,
             likes: blog.likes + 1,
             author: blog.author,
             title: blog.title,
-            url: blog.ur
+            url: blog.url
         }
 
-    try {
-        const update = await blogService.editBlog(Obj)
-        setLikes(likes + 1)
-    }
-    catch (error) {
-        console.log("error during liking")
-        console.log(error)
+        try {
+            const update = await blogService.editBlog(Obj)
+            setLikes((l) => l + 1)
+            if (onLike) onLike(update)
+        } catch (error) {
+            // keep the console logging for debugging
+            // eslint-disable-next-line no-console
+            console.log('error during liking')
+            // eslint-disable-next-line no-console
+            console.log(error)
+        }
     }
 
-    }
-    return(
+    return (
         <>
             likes {likes}
-            <button onClick = {handleClick}>
+            <button onClick={handleClick}>
                 Like
             </button>
         </>
@@ -37,4 +41,4 @@ const Like = ({ blog, user }) => {
 
 }
 
-export default Like 
+export default Like
