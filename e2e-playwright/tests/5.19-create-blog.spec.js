@@ -10,7 +10,15 @@ test.describe('Blog app - create blog', () => {
     await page.getByLabel('username').fill('mluukkai')
     await page.getByLabel('password').fill('salainen')
     await page.getByRole('button', { name: /login/i }).click()
-    await expect(page.getByText(/Matti Luukkainen logged in|Successfully Logged In\./i)).toBeVisible()
+    const userLocator = page.getByText('Matti Luukkainen logged in')
+    const noteLocator = page.getByText('Successfully Logged In.')
+    const userCount = await userLocator.count()
+    const noteCount = await noteLocator.count()
+    if (userCount > 0) {
+      await expect(userLocator).toBeVisible()
+    } else {
+      await expect(noteLocator).toBeVisible()
+    }
   })
 
   test('a new blog can be created', async ({ page }) => {
