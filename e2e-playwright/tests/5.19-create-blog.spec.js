@@ -31,7 +31,8 @@ test.describe('Blog app - create blog', () => {
 
     // Notification and blog item may contain the same text; assert that a .blog element contains the title
     const blogItems = page.locator('.blog').filter({ hasText: title })
-    await expect(blogItems).toHaveCountGreaterThanOrEqual(1)
+    const count = await blogItems.count()
+    if (count < 1) throw new Error(`expected at least one .blog with title ${title}, found ${count}`)
     // ensure at least one of the matched items has a view button
     const firstWithButton = blogItems.filter({ has: page.getByRole('button', { name: /view/i }) }).first()
     await expect(firstWithButton).toBeVisible()
