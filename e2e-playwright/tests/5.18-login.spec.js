@@ -24,8 +24,16 @@ test.describe('Blog app - Login', () => {
   await page.getByRole('button', { name: /login/i }).click()
 
     // The app may show either the logged-in username or a success notification.
-    // Allow either text to be considered a successful login.
-    await expect(page.getByText(/Matti Luukkainen logged in|Successfully Logged In\./i)).toBeVisible({ timeout: 10000 })
+    // Check for either one explicitly to avoid Playwright's strict-mode ambiguity.
+    const userLocator = page.getByText('Matti Luukkainen logged in')
+    const noteLocator = page.getByText('Successfully Logged In.')
+    const userCount = await userLocator.count()
+    const noteCount = await noteLocator.count()
+    if (userCount > 0) {
+      await expect(userLocator).toBeVisible({ timeout: 10000 })
+    } else {
+      await expect(noteLocator).toBeVisible({ timeout: 10000 })
+    }
   })
 
   test('fails with wrong credentials', async ({ page }) => {
