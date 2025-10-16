@@ -10,8 +10,11 @@ const cors = require('cors')
 
 
 const app = express()
+// Allow the frontend dev server on the standard port and any alternate port
+// Vite may pick a different port (e.g. 5174) if 5173 is already in use; accept
+// either during development/testing.
 app.use(cors({
-  origin: 'http://localhost:5173'
+  origin: [ 'http://localhost:5173', 'http://localhost:5174' ]
 }))
 
 logger.info('connecting to', config.MONGODB_URI)
