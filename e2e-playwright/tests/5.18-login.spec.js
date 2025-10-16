@@ -18,10 +18,10 @@ test.describe('Blog app - Login', () => {
   })
 
   test('succeeds with correct credentials', async ({ page }) => {
-    await page.getByRole('button', { name: /login/i }).click()
-    await page.getByLabel('username').fill('mluukkai')
-    await page.getByLabel('password').fill('salainen')
-    await page.getByRole('button', { name: /login/i }).click()
+  // The login form is shown by default; fill fields and submit.
+  await page.getByLabel('username').fill('mluukkai')
+  await page.getByLabel('password').fill('salainen')
+  await page.getByRole('button', { name: /login/i }).click()
 
     // The app may show either the logged-in username or a success notification.
     // Allow either text to be considered a successful login.
@@ -29,10 +29,9 @@ test.describe('Blog app - Login', () => {
   })
 
   test('fails with wrong credentials', async ({ page }) => {
-    await page.getByRole('button', { name: /login/i }).click()
-    await page.getByLabel('username').fill('mluukkai')
-    await page.getByLabel('password').fill('wrong')
-    await page.getByRole('button', { name: /login/i }).click()
+  await page.getByLabel('username').fill('mluukkai')
+  await page.getByLabel('password').fill('wrong')
+  await page.getByRole('button', { name: /login/i }).click()
 
     const errorDiv = page.locator('.error')
     // The app renders "Login Failed." on failed login
