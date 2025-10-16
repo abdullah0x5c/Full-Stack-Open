@@ -29,6 +29,9 @@ test.describe('Blog app - create blog', () => {
     await page.getByLabel('url').fill('http://playwright.test')
     await page.getByRole('button', { name: /Submit/i }).click()
 
-    await expect(page.getByText(title)).toBeVisible()
+    // Notification and blog item may contain the same text; assert that a .blog element contains the title
+    const blogItem = page.locator('.blog').filter({ hasText: title })
+    await expect(blogItem).toHaveCount(1)
+    await expect(blogItem).toBeVisible()
   })
 })
