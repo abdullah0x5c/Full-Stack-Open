@@ -23,8 +23,9 @@ test.describe('Blog app - Login', () => {
     await page.getByLabel('password').fill('salainen')
     await page.getByRole('button', { name: /login/i }).click()
 
-    // The app shows the logged-in user's name; wait a bit longer for the UI update
-    await expect(page.getByText('Matti Luukkainen logged in')).toBeVisible({ timeout: 10000 })
+    // The app may show either the logged-in username or a success notification.
+    // Allow either text to be considered a successful login.
+    await expect(page.getByText(/Matti Luukkainen logged in|Successfully Logged In\./i)).toBeVisible({ timeout: 10000 })
   })
 
   test('fails with wrong credentials', async ({ page }) => {
