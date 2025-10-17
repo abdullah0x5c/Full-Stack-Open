@@ -7,20 +7,17 @@ const App = () => {
   let sortedAnecdotes = anecdotes.sort(function(a ,b ) {return b.votes - a.votes})
   const dispatch = useDispatch()
 
+
   const vote = id => {
-    let action = {
+    return {
       type: 'VOTE',
       payload: {
         id: id
       }
-    }
-    dispatch(action)
-  }
+  }}
 
-  const createAnecdote = event => {
-    event.preventDefault()
-    const content = event.target.anecdote.value
-    let action = {
+  const newAnecdote = content => {
+    return {
       type: 'CREATE',
       payload: {
         content: content,
@@ -28,7 +25,16 @@ const App = () => {
         votes: 0
       }
     }
-    dispatch(action)
+  }
+
+  const addVote = id => {
+    dispatch(vote(id))
+  }
+
+  const createAnecdote = event => {
+    event.preventDefault()
+    const content = event.target.anecdote.value
+    dispatch(newAnecdote(content))
   }
 
 
