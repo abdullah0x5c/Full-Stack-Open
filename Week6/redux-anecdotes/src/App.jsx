@@ -4,6 +4,7 @@ const App = () => {
   
   const getId = () => (100000 * Math.random()).toFixed(0)
   let anecdotes = useSelector(state => state)
+  let sortedAnecdotes = anecdotes.sort(function(a ,b ) {return b.votes - a.votes})
   const dispatch = useDispatch()
 
   const vote = id => {
@@ -34,7 +35,7 @@ const App = () => {
   return (
     <div>
       <h2>Anecdotes</h2>
-      {anecdotes.map(anecdote => (
+      {sortedAnecdotes.map(anecdote => (
         <div key={anecdote.id}>
           <div>{anecdote.content}</div>
           <div>
