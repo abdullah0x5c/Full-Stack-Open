@@ -1,11 +1,6 @@
 {
   "anecdotes": [
     {
-      "content": "If it hurts, do it more often",
-      "id": "47145",
-      "votes": 0
-    },
-    {
       "content": "Adding manpower to a late software project makes it later!",
       "id": "21149",
       "votes": 0
@@ -36,14 +31,14 @@
       "votes": 0
     },
     {
-      "id": "20252",
-      "content": "a",
-      "votes": 0
-    },
-    {
       "id": "30815",
       "content": "It is aerodynamically impossible for a bumblebee to fly, it still decides to do so.",
       "votes": 0
+    },
+    {
+      "id": "47145",
+      "content": "If it hurts, do it more often",
+      "votes": 11
     }
   ]
 }

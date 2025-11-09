@@ -29,4 +29,23 @@ const addAnecdote = async (content) => {
     return data
 }
 
-export default { addAnecdote, getAll }
+const addVote = async (anecdote) => {
+    const options = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            ...anecdote,
+            votes: anecdote.votes + 1
+        }),
+    }
+    const response = await fetch(`${baseUrl}/${anecdote.id}`, options)
+
+    if (!response.ok) {
+        throw new Error('Failed to update votes')
+    }
+
+    const data = await response.json()
+    return data
+}
+
+export default { addAnecdote, getAll, addVote }
