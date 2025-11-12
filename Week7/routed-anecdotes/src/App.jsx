@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import {  BrowserRouter as Router,Routes, Route, Link} from 'react-router-dom'
+import {  BrowserRouter as Router,Routes, Route, Link, useParams } from 'react-router-dom'
 
 
 const padding = {
@@ -11,10 +11,26 @@ const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
     <ul>
-      {anecdotes.map(anecdote => <li key={anecdote.id} >{anecdote.content}</li>)}
+      {anecdotes.map(anecdote => <li key={anecdote.id} ><Link to={`/${anecdote.id}`}>{anecdote.content}</Link></li>)}
     </ul>
   </div>
 )
+
+const Anecdote = ({ anecdotes }) => {
+
+  const id = useParams().id
+  const a = anecdotes.find(x => x.id == id)
+
+  return (
+    <>
+      <h2>{a.content}</h2>
+      <h4>by {a.author}</h4>
+      <p>Anecdote has {a.votes} votes</p>
+      <p>More about this <a href={a.info}>here</a>.</p>
+    </>
+  )
+
+}
 
 const About = () => (
   <div>
@@ -129,6 +145,7 @@ const App = () => {
         <Route path="/new" element={<CreateNew addNew={addNew} />} />
         <Route path="/about" element={<About />} />
         <Route path="/" element={<AnecdoteList anecdotes={anecdotes} />} />
+        <Route path="/:id" element={<Anecdote anecdotes={anecdotes} />} />
       </Routes>
 
       <Footer />
