@@ -1,25 +1,35 @@
 import { useState } from 'react'
 
-import {  BrowserRouter as Router,Routes, Route, Link, useParams } from 'react-router-dom'
+import {  BrowserRouter as Router,Routes, Route, Link, useParams, useNavigate } from 'react-router-dom'
 
 
 const padding = {
     padding: 5
   }
 
-const AnecdoteList = ({ anecdotes }) => (
+const AnecdoteList = ({ anecdotes = [], nf }) => (
   <div>
     <h2>Anecdotes</h2>
+    <h5>{nf}</h5>
     <ul>
       {anecdotes.map(anecdote => <li key={anecdote.id} ><Link to={`/${anecdote.id}`}>{anecdote.content}</Link></li>)}
     </ul>
   </div>
 )
 
-const Anecdote = ({ anecdotes }) => {
+const Anecdote = ({ anecdotes = [] }) => {
 
   const id = useParams().id
   const a = anecdotes.find(x => x.id == id)
+
+  if (!a) {
+    return (
+      <div>
+        <h2>Anecdote not found</h2>
+        <p>The anecdote you requested does not exist.</p>
+      </div>
+    )
+  }
 
   return (
     <>
@@ -58,6 +68,7 @@ const CreateNew = (props) => {
   const [content, setContent] = useState('')
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
+  const navigates = useNavigate()
 
 
   const handleSubmit = (e) => {
@@ -68,6 +79,11 @@ const CreateNew = (props) => {
       info,
       votes: 0
     })
+    navigates('/')
+    props.nf(`"${content}" added successfully.`)
+    setTimeout(
+      () => props.nf("")
+      ,3000)
   }
 
   return (
@@ -142,9 +158,9 @@ const App = () => {
       </div>
 
       <Routes>
-        <Route path="/new" element={<CreateNew addNew={addNew} />} />
+        <Route path="/new" element={<CreateNew addNew={addNew} nf={setNotification} />} />
         <Route path="/about" element={<About />} />
-        <Route path="/" element={<AnecdoteList anecdotes={anecdotes} />} />
+        <Route path="/" element={<AnecdoteList anecdotes={anecdotes} nf={notification} />} />
         <Route path="/:id" element={<Anecdote anecdotes={anecdotes} />} />
       </Routes>
 
