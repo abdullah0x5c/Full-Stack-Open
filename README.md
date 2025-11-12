@@ -27,4 +27,4 @@ The course is divided into 13 parts (0-12), with each part containing multiple e
 
 **Total Progress:** 115/150 exercises completed
 
-**Last Readme Update:** Nov 11th, 2025
+**Last Readme Update:** Nov 12th, 2025
