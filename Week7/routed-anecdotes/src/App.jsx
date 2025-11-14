@@ -7,7 +7,7 @@ const padding = {
     padding: 5
   }
 
-const AnecdoteList = ({ anecdotes = [], nf }) => (
+const AnecdoteList = ({ anecdotes, nf }) => (
   <div>
     <h2>Anecdotes</h2>
     <h5>{nf}</h5>
@@ -17,19 +17,10 @@ const AnecdoteList = ({ anecdotes = [], nf }) => (
   </div>
 )
 
-const Anecdote = ({ anecdotes = [] }) => {
+const Anecdote = ({ anecdotes }) => {
 
   const id = useParams().id
   const a = anecdotes.find(x => x.id == id)
-
-  if (!a) {
-    return (
-      <div>
-        <h2>Anecdote not found</h2>
-        <p>The anecdote you requested does not exist.</p>
-      </div>
-    )
-  }
 
   return (
     <>
@@ -124,6 +115,13 @@ const App = () => {
       info: 'http://wiki.c2.com/?PrematureOptimization',
       votes: 0,
       id: 2
+    },
+    {
+      content: 'I am a genius because I studied very very hard',
+      author: 'Feinmann',
+      info: 'Wikipedia.com',
+      votes: 0,
+      id: 3
     }
   ])
 
