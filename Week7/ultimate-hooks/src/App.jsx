@@ -18,10 +18,26 @@ const useField = (type) => {
 const useResource = (baseUrl) => {
   const [resources, setResources] = useState([])
 
-  // ...
+  useEffect(() => {
+    const fetchAll = async () => {
+      try {
+        const response = await axios.get(baseUrl)
+        setResources(response.data)
+      } catch (error) {
+        console.error('Error fetching resources:', error)
+      }
+    }
 
-  const create = (resource) => {
-    // ...
+    fetchAll()
+  }, [baseUrl])
+
+  const create = async (resource) => {
+    try {
+      const response = await axios.post(baseUrl, resource)
+      setResources(prevResources => [...prevResources, response.data])
+    } catch (error) {
+      console.error('Error creating resource:', error)
+    }
   }
 
   const service = {
