@@ -17,6 +17,8 @@ export const useSubmission = () => {
         setAuthor,
         setInfo,
         content,
+        author,
+        info,
         obj
     }
 }

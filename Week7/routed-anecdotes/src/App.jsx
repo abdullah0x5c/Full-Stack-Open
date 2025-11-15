@@ -59,6 +59,12 @@ const CreateNew = (props) => {
   const submission = useSubmission()
   const navigates = useNavigate()
 
+  const resetValues = (e) => {
+    e.preventDefault()
+    submission.setContent('')
+    submission.setAuthor('')
+    submission.setInfo('')
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -87,6 +93,7 @@ const CreateNew = (props) => {
           <input name='info' value={submission.info} onChange={(e)=> submission.setInfo(e.target.value)} />
         </div>
         <button>create</button>
+        <button onClick={resetValues}>reset</button>
       </form>
     </div>
   )
