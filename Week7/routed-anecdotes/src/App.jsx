@@ -1,5 +1,5 @@
 import { useState } from 'react'
-
+import { useSubmission } from './hooks/index'
 import {  BrowserRouter as Router,Routes, Route, Link, useParams, useNavigate } from 'react-router-dom'
 
 
@@ -56,22 +56,15 @@ const Footer = () => (
 )
 
 const CreateNew = (props) => {
-  const [content, setContent] = useState('')
-  const [author, setAuthor] = useState('')
-  const [info, setInfo] = useState('')
+  const submission = useSubmission()
   const navigates = useNavigate()
 
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    props.addNew({
-      content,
-      author,
-      info,
-      votes: 0
-    })
+    props.addNew(submission.obj)
     navigates('/')
-    props.nf(`"${content}" added successfully.`)
+    props.nf(`"${submission.content}" added successfully.`)
     setTimeout(
       () => props.nf("")
       ,3000)
@@ -83,15 +76,15 @@ const CreateNew = (props) => {
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input name='content' value={content} onChange={(e) => setContent(e.target.value)} />
+          <input name='content' value={submission.content} onChange={(e) => submission.setContent(e.target.value)} />
         </div>
         <div>
           author
-          <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} />
+          <input name='author' value={submission.author} onChange={(e) => submission.setAuthor(e.target.value)} />
         </div>
         <div>
           url for more info
-          <input name='info' value={info} onChange={(e)=> setInfo(e.target.value)} />
+          <input name='info' value={submission.info} onChange={(e)=> submission.setInfo(e.target.value)} />
         </div>
         <button>create</button>
       </form>
