@@ -1,8 +1,13 @@
 import React, { useState } from 'react'
-
+import { useDispatch } from 'react-redux'
 import blogService from '../services/blogs'
+import {
+  setNotification,
+  clearNotification,
+} from '../reducers/notificationReducer'
 
 const AddBlog = (props) => {
+  const dispatch = useDispatch()
   const [newBlog, setNewBlog] = useState(false)
 
   const [title, setTitle] = useState('')
@@ -19,10 +24,10 @@ const AddBlog = (props) => {
         likes: 0,
       })
       props.setBlogs([...props.blogs, upload])
-      props.setNotification(
-        `Blog Uploaded - ${upload.title} by ${upload.author}`
+      dispatch(
+        setNotification(`Blog Uploaded - ${upload.title} by ${upload.author}`)
       )
-      setTimeout(() => props.setNotification(null), 5000)
+      setTimeout(() => dispatch(clearNotification()), 5000)
     } catch (error) {
       props.setError(error)
       setTimeout(() => props.setError(null), 5000)

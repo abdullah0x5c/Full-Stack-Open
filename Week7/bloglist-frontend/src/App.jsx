@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
 import Error from './components/Error'
@@ -6,9 +7,16 @@ import loginService from './services/login'
 import registerService from './services/register'
 import blogService from './services/blogs'
 import AddBlog from './components/AddBlog'
+import {
+  setNotification,
+  clearNotification,
+} from './reducers/notificationReducer'
 import './styles.css'
 
 const App = () => {
+  const dispatch = useDispatch()
+  const notification = useSelector((state) => state.notification)
+
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -19,7 +27,6 @@ const App = () => {
 
   const [user, setUser] = useState(null)
 
-  const [notification, setNotification] = useState(null)
   const [error, setError] = useState(null)
 
   const [registerDiv, setRegisterDiv] = useState(false)
@@ -32,8 +39,8 @@ const App = () => {
         username: regiUsername,
         password: regiPassword,
       })
-      setNotification(`User Registered - ${regiName}`)
-      setTimeout(() => setNotification(null), 5000)
+      dispatch(setNotification(`User Registered - ${regiName}`))
+      setTimeout(() => dispatch(clearNotification()), 5000)
       setRegiName('')
       setRegiUsername('')
       setRegiPassword('')
@@ -138,12 +145,7 @@ const App = () => {
             logout
           </button>
         </p>
-        <AddBlog
-          blogs={blogs}
-          setBlogs={setBlogs}
-          setNotification={setNotification}
-          setError={setError}
-        />
+        <AddBlog blogs={blogs} setBlogs={setBlogs} setError={setError} />
         <br></br>
         <br></br>
         {blogs
@@ -165,8 +167,8 @@ const App = () => {
       const user = await loginService.login({ username, password })
       setUser(user)
       blogService.setToken(user.token)
-      setNotification('Successfully Logged In.')
-      setTimeout(() => setNotification(null), 5000)
+      dispatch(setNotification('Successfully Logged In.'))
+      setTimeout(() => dispatch(clearNotification()), 5000)
       setUsername('')
       setPassword('')
     } catch (error) {
