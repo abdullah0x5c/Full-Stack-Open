@@ -1,32 +1,15 @@
-import blogService from '../services/blogs'
-import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { likeBlog } from '../reducers/blogsReducer'
 
-// onLike (optional) is a callback the parent can pass to be notified
-// when a like has been successfully processed.
-const Like = ({ blog, user, onLike }) => {
-  const [likes, setLikes] = useState(blog.likes)
+const Like = ({ blog, user }) => {
+  const dispatch = useDispatch()
+  const updatedBlog = useSelector((state) =>
+    state.blogs.find((b) => b.id === blog.id)
+  )
+  const likes = updatedBlog ? updatedBlog.likes : blog.likes
 
-  const handleClick = async () => {
-    const Obj = {
-      id: blog.id,
-      user: blog.user,
-      likes: blog.likes + 1,
-      author: blog.author,
-      title: blog.title,
-      url: blog.url,
-    }
-
-    try {
-      const update = await blogService.editBlog(Obj)
-      setLikes((l) => l + 1)
-      if (onLike) onLike(update)
-    } catch (error) {
-      // keep the console logging for debugging
-      // eslint-disable-next-line no-console
-      console.log('error during liking')
-      // eslint-disable-next-line no-console
-      console.log(error)
-    }
+  const handleClick = () => {
+    dispatch(likeBlog(blog))
   }
 
   return (

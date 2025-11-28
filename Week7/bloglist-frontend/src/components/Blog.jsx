@@ -1,10 +1,14 @@
 import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import Like from './Like'
-import blogservice from '../services/blogs.js'
+import { deleteBlog } from '../reducers/blogsReducer'
 
 const Blog = ({ blog, user }) => {
+  const dispatch = useDispatch()
+  const blogs = useSelector((state) => state.blogs)
+  const isDeleted = !blogs.find((b) => b.id === blog.id)
+
   let [view, setView] = useState(false)
-  let [deleted, setDeleted] = useState(false)
 
   const blogStyle = {
     paddingTop: 10,
@@ -24,8 +28,7 @@ const Blog = ({ blog, user }) => {
   const handleDelete = (id) => {
     let confirmation = confirm('do you really want to delete this blog?')
     if (confirmation) {
-      blogservice.deleteBlog(id)
-      setDeleted(1)
+      dispatch(deleteBlog(id))
     }
   }
 
@@ -56,7 +59,7 @@ const Blog = ({ blog, user }) => {
     )
   }
 
-  return deleted ? <></> : view ? blogExpanded() : blogCollapsed()
+  return isDeleted ? <></> : view ? blogExpanded() : blogCollapsed()
 }
 //   (
 //   <div>
