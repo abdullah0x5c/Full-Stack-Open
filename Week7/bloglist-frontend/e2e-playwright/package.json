@@ -1,0 +1,13 @@
+{
+  "name": "blog-e2e-playwright",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "playwright test",
+    "test:report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0"
+  }
+}
