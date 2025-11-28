@@ -23,8 +23,8 @@ The course is divided into 13 parts (0-12), with each part containing multiple e
 | 4 | Testing Express servers, user administration | 12/23 | ✅ | - | Complete |
 | 5 | Testing React apps | 23/23 | ✅ | - | Complete |
 | 6 | Advanced state management | 21/21 | ✅ | - | Complete |
-| 7 | React router, custom hooks, styling app with CSS and webpack | 0/21 | ⏳ | - | Pending |
+| 7 | React router, custom hooks, styling app with CSS and webpack | 21/21 | ✅  | Nov 29 | Pending |
 
-**Total Progress:** 115/150 exercises completed
+**Total Progress:** 136/150 exercises completed (Skipped only some non-compulsory ones)
 
-**Last Readme Update:** Nov 12th, 2025
+**Last Readme Update:** Nov 29th, 2025

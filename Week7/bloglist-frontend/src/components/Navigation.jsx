@@ -18,10 +18,12 @@ const Navigation = () => {
 
   return (
     <nav>
-      <Link to="/">blogs</Link> <Link to="/users">users</Link> {user.name}{' '}
-      logged in <button onClick={handleLogout}>logout</button>
+      <Link to="/">blogs</Link> <Link to="/users">users</Link>{' '}
+      {user.name} logged in{' '}
+      <button onClick={handleLogout}>logout</button>
     </nav>
   )
 }
 
 export default Navigation
+
