@@ -12,20 +12,20 @@ import {
   clearNotification,
 } from './reducers/notificationReducer'
 import { initializeBlogs } from './reducers/blogsReducer'
+import { setUser, clearUser } from './reducers/userReducer'
 import './styles.css'
 
 const App = () => {
   const dispatch = useDispatch()
   const notification = useSelector((state) => state.notification)
   const blogs = useSelector((state) => state.blogs)
+  const user = useSelector((state) => state.user)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
   const [regiName, setRegiName] = useState('')
   const [regiUsername, setRegiUsername] = useState('')
   const [regiPassword, setRegiPassword] = useState('')
-
-  const [user, setUser] = useState(null)
 
   const [error, setError] = useState(null)
 
@@ -138,7 +138,7 @@ const App = () => {
           {user.name} logged in{' '}
           <button
             onClick={() => {
-              setUser(null)
+              dispatch(clearUser())
               blogService.setToken(null)
             }}
           >
@@ -164,9 +164,9 @@ const App = () => {
     event.preventDefault()
 
     try {
-      const user = await loginService.login({ username, password })
-      setUser(user)
-      blogService.setToken(user.token)
+      const loggedInUser = await loginService.login({ username, password })
+      dispatch(setUser(loggedInUser))
+      blogService.setToken(loggedInUser.token)
       dispatch(setNotification('Successfully Logged In.'))
       setTimeout(() => dispatch(clearNotification()), 5000)
       setUsername('')
