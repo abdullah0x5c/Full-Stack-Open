@@ -1,24 +1,33 @@
 import { useState, useEffect } from 'react'
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import Blog from './components/Blog'
 import Notification from './components/Notification'
 import Error from './components/Error'
 import loginService from './services/login'
 import registerService from './services/register'
 import blogService from './services/blogs'
-import AddBlog from './components/AddBlog'
 import {
   setNotification,
   clearNotification,
 } from './reducers/notificationReducer'
 import { initializeBlogs } from './reducers/blogsReducer'
 import { setUser, clearUser } from './reducers/userReducer'
+import Navigation from './components/Navigation'
+import BlogList from './components/BlogList'
+import AddBlog from './components/AddBlog'
+import BlogView from './components/BlogView'
+import Users from './components/Users'
+import User from './components/User'
 import './styles.css'
 
 const App = () => {
   const dispatch = useDispatch()
   const notification = useSelector((state) => state.notification)
-  const blogs = useSelector((state) => state.blogs)
   const user = useSelector((state) => state.user)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -131,35 +140,6 @@ const App = () => {
     )
   }
 
-  const Blogs = () => {
-    return (
-      <>
-        <p>
-          {user.name} logged in{' '}
-          <button
-            onClick={() => {
-              dispatch(clearUser())
-              blogService.setToken(null)
-            }}
-          >
-            logout
-          </button>
-        </p>
-        <AddBlog setError={setError} />
-        <br></br>
-        <br></br>
-        {blogs
-          .slice()
-          .sort((a, b) => b.likes - a.likes)
-          .map((blog) => (
-            <>
-              <Blog key={blog.id} blog={blog} user={user} />
-            </>
-          ))}
-      </>
-    )
-  }
-
   const handleLogin = async (event) => {
     event.preventDefault()
 
@@ -181,15 +161,42 @@ const App = () => {
     dispatch(initializeBlogs())
   }, [dispatch])
 
+  if (!user) {
+    return (
+      <div>
+        <h1>blogs</h1>
+        <Notification message={notification} />
+        <Error message={error} />
+        {!registerDiv && login()}
+        {registerDiv && register()}
+      </div>
+    )
+  }
+
   return (
-    <div>
-      <h1>blogs</h1>
-      <Notification message={notification} />
-      <Error message={error} />
-      {!user && !registerDiv && login()}
-      {!user && registerDiv && register()}
-      {user && Blogs()}
-    </div>
+    <Router>
+      <div>
+        <h1>blogs</h1>
+        <Navigation />
+        <Notification message={notification} />
+        <Error message={error} />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <AddBlog setError={setError} />
+                <BlogList />
+              </>
+            }
+          />
+          <Route path="/blogs/:id" element={<BlogView />} />
+          <Route path="/users" element={<Users />} />
+          <Route path="/users/:id" element={<User />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </div>
+    </Router>
   )
 }
 
