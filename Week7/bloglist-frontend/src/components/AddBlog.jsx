@@ -5,6 +5,7 @@ import {
   setNotification,
   clearNotification,
 } from '../reducers/notificationReducer'
+import { appendBlog } from '../reducers/blogsReducer'
 
 const AddBlog = (props) => {
   const dispatch = useDispatch()
@@ -23,11 +24,15 @@ const AddBlog = (props) => {
         url: url,
         likes: 0,
       })
-      props.setBlogs([...props.blogs, upload])
+      dispatch(appendBlog(upload))
       dispatch(
         setNotification(`Blog Uploaded - ${upload.title} by ${upload.author}`)
       )
       setTimeout(() => dispatch(clearNotification()), 5000)
+      setTitle('')
+      setAuthor('')
+      setUrl('')
+      setNewBlog(false)
     } catch (error) {
       props.setError(error)
       setTimeout(() => props.setError(null), 5000)

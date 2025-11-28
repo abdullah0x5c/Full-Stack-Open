@@ -11,13 +11,13 @@ import {
   setNotification,
   clearNotification,
 } from './reducers/notificationReducer'
+import { initializeBlogs } from './reducers/blogsReducer'
 import './styles.css'
 
 const App = () => {
   const dispatch = useDispatch()
   const notification = useSelector((state) => state.notification)
-
-  const [blogs, setBlogs] = useState([])
+  const blogs = useSelector((state) => state.blogs)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
@@ -145,7 +145,7 @@ const App = () => {
             logout
           </button>
         </p>
-        <AddBlog blogs={blogs} setBlogs={setBlogs} setError={setError} />
+        <AddBlog setError={setError} />
         <br></br>
         <br></br>
         {blogs
@@ -178,8 +178,8 @@ const App = () => {
   }
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs))
-  }, [])
+    dispatch(initializeBlogs())
+  }, [dispatch])
 
   return (
     <div>
